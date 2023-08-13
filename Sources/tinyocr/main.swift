@@ -3,7 +3,7 @@ import Cocoa
 import Vision
 import Foundation
 
-@available(macOS 11.0, *)
+@available(macOS 13.0, *)
 
 struct tinyocr: ArgumentParser.ParsableCommand {
     public static let configuration = CommandConfiguration(abstract: "Perform OCR on every image passed a command line argument, output to stdout")
@@ -28,7 +28,8 @@ struct tinyocr: ArgumentParser.ParsableCommand {
         }
         request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
         request.usesLanguageCorrection = true
-        request.revision = VNRecognizeTextRequestRevision2
+        request.revision = VNRecognizeTextRequestRevision3
+        // print("lang", lang)
         request.recognitionLanguages = lang
         if words != nil {
             let text = try String(contentsOfFile: words!)
@@ -43,8 +44,8 @@ struct tinyocr: ArgumentParser.ParsableCommand {
     }
 }
 
-if #available(macOS 11.0, *) {
+if #available(macOS 13.0, *) {
     tinyocr.main()
 } else {
-    print("This code only runs on macOS 11.0 and higher")
+    print("This code only runs on macOS 13.0 and higher")
 }
